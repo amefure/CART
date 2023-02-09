@@ -14,6 +14,7 @@ struct MenuListView: View {
     @EnvironmentObject var databaseManager:DatabaseManager
     
     let weekDay:[String] = ["月","火","水","木","金","土","日"]
+
     let colorSet:[Color] = [.gray,.gray,.gray,.gray,.gray,.blue,.red]
     @State var week:[String] = ["","","","","","",""]
     
@@ -25,6 +26,16 @@ struct MenuListView: View {
             
             HStack{
                 
+                
+                if isEdit {
+                    Button(action: {
+                        week = databaseManager.menuObj.week
+                        isEdit.toggle()
+                    }, label: {
+                        Image(systemName: "arrow.uturn.left" )
+                    }).BackRoundColor(color: Color.indigo)
+                }
+                
                 if isEdit {
                     Button(action: {
                         week = ["","","","","","",""]
@@ -32,6 +43,7 @@ struct MenuListView: View {
                         Image(systemName: "trash" )
                     }).BackRoundColor(color: Color("SubColor"))
                 }
+            
                 
                 
                 Button(action: {
@@ -69,7 +81,7 @@ struct MenuListView: View {
                 Section(header:Text("\(Image(systemName: "pencil")) Memo")){
                     if isEdit{
                         TextEditor(text: $memo)
-                            .frame(height:100)
+                            .frame(height:250)
                             .border(Color(red: 0.9, green: 0.9, blue: 0.9), width: 1)
                     }else{
                         Text(databaseManager.menuObj.memo).frame(minHeight:100,alignment: .top)
